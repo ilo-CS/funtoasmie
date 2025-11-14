@@ -1,0 +1,62 @@
+/* Global CSS Variables for theme and shared tokens */
+:root {
+  /* Brand palette (blue/yellow as primary theme) */
+  --brand-blue-900: #1e3a8a;
+  --brand-blue-700: #1d4f9e;
+  --brand-blue-600: #1e40af;
+  --brand-blue-500: #3b82f6;
+  --brand-blue-400: #60a5fa;
+
+  --brand-yellow-500: #ffc107;
+  --brand-yellow-600: #e0a800;
+
+  /* Accent palettes */
+  --accent-purple-500: #667eea;
+  --accent-purple-600: #764ba2;
+
+  --success-500: #28a745;
+  --success-600: #198754;
+  --teal-500: #20c997;
+
+  --danger-500: #dc3545;
+  --danger-600: #c82333;
+
+  --info-500: #17a2b8;
+  --info-600: #138496;
+
+  --warning-500: #ffc107;
+  --warning-600: #e0a800;
+
+  /* Neutral grays */
+  --gray-50: #f9fafb;
+  --gray-100: #f8f9fa;
+  --gray-150: #f5f7fa;
+  --gray-200: #e9ecef;
+  --gray-250: #e5e7eb;
+  --gray-300: #dee2e6;
+  --gray-400: #c1c1c1;
+  --gray-500: #9ca3af;
+  --gray-600: #6b7280;
+  --gray-700: #495057;
+  --gray-800: #374151;
+  --gray-900: #1f2937;
+
+  /* Common gradients */
+  --gradient-login: linear-gradient(135deg, var(--brand-blue-900) 0%, var(--brand-blue-700) 50%, #3d6799 100%);
+  --gradient-brand: linear-gradient(45deg, var(--brand-blue-900), var(--brand-blue-500), var(--brand-blue-400));
+  --gradient-primary: linear-gradient(135deg, #007bff, #0056b3);
+  --gradient-success: linear-gradient(135deg, var(--success-500), var(--teal-500));
+  --gradient-warning: linear-gradient(135deg, var(--warning-500), var(--warning-600));
+  --gradient-danger: linear-gradient(135deg, var(--danger-500), var(--danger-600));
+  --gradient-info: linear-gradient(135deg, var(--info-500), var(--info-600));
+  --gradient-surface: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
+  --gradient-accent-purple: linear-gradient(135deg, var(--accent-purple-500) 0%, var(--accent-purple-600) 100%);
+
+  /* Layout tokens */
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-card: 0 10px 30px rgba(0,0,0,0.1);
+  --border-default: 1px solid var(--gray-250);
+}
+
+

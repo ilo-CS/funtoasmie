@@ -1,0 +1,309 @@
+/* StockAlerts Styles */
+.stock-alerts {
+  margin-bottom: 1.5rem;
+}
+
+.stock-alert {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  animation: slideInFromTop 0.3s ease-out;
+}
+
+.stock-alert:last-child {
+  margin-bottom: 0;
+}
+
+/* Alertes critiques (rupture de stock) */
+.stock-alert.critical {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.stock-alert.critical:hover {
+  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Alertes de stock faible */
+.stock-alert.warning {
+  background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.stock-alert.warning:hover {
+  box-shadow: 0 6px 16px rgba(255, 193, 7, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Alertes mixtes */
+.stock-alert.mixed {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.stock-alert.mixed:hover {
+  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Contenu des alertes */
+.stock-alert-content {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.stock-alert-icon {
+  margin-right: 0.75rem;
+  font-size: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+.stock-alert-text h6 {
+  margin: 0 0 0.25rem 0;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.stock-alert-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Animations */
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.stock-alert.critical .stock-alert-icon {
+  animation: shake 0.5s ease-in-out infinite;
+}
+
+/* États des alertes */
+.stock-alert.new {
+  animation: slideInFromTop 0.5s ease-out, pulse 1s ease-in-out 0.5s;
+}
+
+.stock-alert.updated {
+  animation: slideInFromTop 0.3s ease-out;
+}
+
+.stock-alert.removing {
+  animation: slideOutToTop 0.3s ease-in forwards;
+}
+
+@keyframes slideOutToTop {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stock-alert-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 0.75rem;
+  }
+  
+  .stock-alert-icon {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+  }
+  
+  .stock-alert-text h6 {
+    font-size: 0.9rem;
+  }
+  
+  .stock-alert-text p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .stock-alert {
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+  }
+  
+  .stock-alert-content {
+    padding: 0.5rem;
+  }
+  
+  .stock-alert-icon {
+    font-size: 1rem;
+  }
+  
+  .stock-alert-text h6 {
+    font-size: 0.8rem;
+  }
+  
+  .stock-alert-text p {
+    font-size: 0.75rem;
+  }
+}
+
+/* Variantes d'alertes */
+.stock-alert.info {
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
+}
+
+.stock-alert.success {
+  background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+/* Alertes avec compteurs */
+.stock-alert.with-counter {
+  position: relative;
+}
+
+.stock-alert.with-counter::before {
+  content: attr(data-count);
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #dc3545;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Alertes groupées */
+.stock-alerts.grouped {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+/* Alertes compactes */
+.stock-alert.compact {
+  padding: 0.5rem;
+}
+
+.stock-alert.compact .stock-alert-content {
+  padding: 0.5rem;
+}
+
+.stock-alert.compact .stock-alert-icon {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.stock-alert.compact .stock-alert-text h6 {
+  font-size: 0.8rem;
+  margin-bottom: 0.1rem;
+}
+
+.stock-alert.compact .stock-alert-text p {
+  font-size: 0.7rem;
+}
+
+/* Focus states */
+.stock-alert:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Loading states */
+.stock-alert.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.stock-alert.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .stock-alert {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .stock-alert.critical {
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+  }
+  
+  .stock-alert.warning {
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+  }
+}

@@ -1,0 +1,9 @@
+node_modules
+build
+Dockerfile.dev
+.dockerignore
+.env
+.env.*
+npm-debug.log
+yarn-error.log
+

@@ -1,0 +1,379 @@
+/* MedicationCard Styles */
+.medication-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  background: white;
+  height: 100%;
+}
+
+.medication-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.medication-card.discontinued {
+  border: 2px solid #dc3545;
+  box-shadow: 0 4px 20px rgba(220, 53, 69, 0.3);
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+}
+
+/* Header avec statut */
+.medication-header {
+  padding: 0.5rem;
+  color: white;
+  position: relative;
+  border-radius: 16px 16px 0 0;
+}
+
+.medication-header.normal-stock {
+  background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+}
+
+.medication-header.low-stock {
+  background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+}
+
+.medication-header.out-of-stock {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.medication-header.discontinued {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.medication-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.medication-info {
+  display: flex;
+  align-items: center;
+}
+
+.medication-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.medication-details h6 {
+  margin: 0;
+  font-weight: bold;
+  color: white;
+  font-size: 0.8rem;
+}
+
+.medication-details small {
+  opacity: 0.75;
+  font-size: 0.6rem;
+}
+
+.medication-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.medication-badge {
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 0.5rem;
+  font-weight: 600;
+}
+
+/* Indicateur de stock */
+.stock-indicator {
+  margin-top: 0.5rem;
+}
+
+.stock-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.stock-quantity {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.stock-minimum {
+  opacity: 0.75;
+  font-size: 0.6rem;
+}
+
+.stock-progress {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Body avec informations */
+.medication-body {
+  padding: 0.5rem;
+}
+
+.medication-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.medication-detail {
+  display: flex;
+  align-items: center;
+}
+
+.medication-detail-icon {
+  margin-right: 0.25rem;
+}
+
+.medication-detail-label {
+  color: #6c757d;
+  font-size: 0.6rem;
+}
+
+.medication-detail-value {
+  font-weight: bold;
+  margin-left: 0.25rem;
+  font-size: 0.7rem;
+}
+
+/* Actions */
+.medication-actions {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.medication-action-btn {
+  flex: 1;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.6rem;
+  padding: 2px 6px;
+  transition: all 0.3s ease;
+  border: 1px solid;
+}
+
+.medication-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-edit {
+  border-color: #007bff;
+  color: #007bff;
+  background: transparent;
+}
+
+.btn-edit:hover {
+  background: #007bff;
+  color: white;
+}
+
+.btn-deactivate {
+  border-color: #ffc107;
+  color: #ffc107;
+  background: transparent;
+}
+
+.btn-deactivate:hover {
+  background: #ffc107;
+  color: white;
+}
+
+.btn-reactivate {
+  border-color: #28a745;
+  color: #28a745;
+  background: transparent;
+}
+
+.btn-reactivate:hover {
+  background: #28a745;
+  color: white;
+}
+
+.btn-discontinue {
+  border-color: #dc3545;
+  color: #dc3545;
+  background: transparent;
+}
+
+.btn-discontinue:hover {
+  background: #dc3545;
+  color: white;
+}
+
+/* Message spécial pour les médicaments arrêtés */
+.discontinued-message {
+  background: #dc3545;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 0 0 14px 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .medication-card {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .medication-card {
+    margin-bottom: 0.75rem;
+  }
+  
+  .medication-header {
+    padding: 0.4rem;
+  }
+  
+  .medication-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+  
+  .medication-details h6 {
+    font-size: 0.75rem;
+  }
+  
+  .medication-details small {
+    font-size: 0.55rem;
+  }
+  
+  .medication-actions {
+    flex-direction: column;
+  }
+  
+  .medication-action-btn {
+    font-size: 0.55rem;
+    padding: 3px 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .medication-card {
+    margin-bottom: 0.5rem;
+  }
+  
+  .medication-header {
+    padding: 0.3rem;
+  }
+  
+  .medication-avatar {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+  
+  .medication-details h6 {
+    font-size: 0.7rem;
+  }
+  
+  .medication-details small {
+    font-size: 0.5rem;
+  }
+  
+  .medication-details-grid {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+  
+  .medication-action-btn {
+    font-size: 0.5rem;
+    padding: 2px 6px;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.medication-card {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Hover effects */
+.medication-card:hover .medication-avatar {
+  transform: scale(1.1);
+}
+
+.medication-card:hover .stock-progress {
+  transform: scaleY(1.2);
+}
+
+/* Focus states */
+.medication-action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Loading states */
+.medication-card.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.medication-card.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .medication-card {
+    background: #2d3748;
+    color: #e2e8f0;
+  }
+  
+  .medication-detail-label {
+    color: #a0aec0;
+  }
+  
+  .medication-detail-value {
+    color: #e2e8f0;
+  }
+}

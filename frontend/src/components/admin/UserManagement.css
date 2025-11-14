@@ -1,0 +1,677 @@
+/* ===== GESTION DES UTILISATEURS ===== */
+.user-management {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 0;
+}
+.titlehf{
+  color: #1e3a8a;
+}
+
+/* ===== EN-TÊTE DE PAGE ===== */
+.page-header {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* ===== BARRE DE RECHERCHE ===== */
+.search-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: #6c757d;
+  z-index: 2;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+.filter-select {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+/* ===== CONTAINER DU TABLEAU ===== */
+.table-container {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  border: 1px solid #e9ecef;
+}
+
+.table-header {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-bottom: 2px solid #e9ecef;
+  padding: 1.5rem;
+}
+
+.table-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 0;
+}
+
+.table-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.table-body {
+  padding: 0;
+}
+
+/* ===== TABLEAU ===== */
+.user-management .table {
+  margin-bottom: 0;
+  border-collapse: collapse;
+}
+
+.user-management .table thead th {
+  border-bottom: 2px solid #e9ecef;
+  font-weight: 600;
+  color: #495057;
+  background: #f8f9fa;
+  padding: 1rem 0.75rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.user-management .table tbody td {
+  padding: 1rem 0.75rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.user-management .table tbody tr {
+  background: #ffffff;
+}
+
+.user-management .table tbody tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+/* ===== AVATAR UTILISATEUR ===== */
+.user-avatar {
+  border: 2px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== BADGES ===== */
+.user-management .badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===== BOUTONS D'ACTION ===== */
+.user-management .btn {
+  border-radius: 6px;
+  font-weight: 500;
+  border-width: 1px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.user-management .btn-outline-primary {
+  color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.user-management .btn-outline-warning {
+  color: #f59e0b;
+  border-color: #f59e0b;
+}
+
+.user-management .btn-outline-danger {
+  color: #dc2626;
+  border-color: #dc2626;
+}
+
+/* ===== ÉTATS DE CHARGEMENT ===== */
+.user-management .spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3em;
+}
+
+/* ===== ALERTES ===== */
+.user-management .alert {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== ÉTAT VIDE ===== */
+.user-management .text-center.py-5 {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  margin: 1rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .user-management .table-responsive {
+    border-radius: 0;
+  }
+  
+  .user-management .table thead th,
+  .user-management .table tbody td {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .user-management .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .user-management .d-flex.gap-1 {
+    flex-direction: column;
+    gap: 0.25rem !important;
+  }
+  
+  .user-management .d-flex.gap-2 {
+    flex-direction: column;
+    gap: 0.5rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .user-management .card-body {
+    padding: 1rem;
+  }
+  
+  .user-management .table thead th,
+  .user-management .table tbody td {
+    padding: 0.25rem;
+    font-size: 0.8rem;
+  }
+  
+  .user-management .user-avatar {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 12px !important;
+  }
+  
+  .user-management .badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* ===== FOCUS STATES ===== */
+.user-management .btn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+/* ===== ACCESSIBILITÉ ===== */
+.user-management .table tbody tr:focus-within {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+}
+
+/* ===== MODALES ===== */
+.user-form-modal .modal-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  border-bottom: none;
+}
+
+.user-form-modal .modal-body {
+  background: #f8f9fa;
+}
+
+.user-form-modal .form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.user-form-modal .form-control,
+.user-form-modal .form-select {
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.user-form-modal .form-control:focus,
+.user-form-modal .form-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+.user-details-modal .modal-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  border-bottom: none;
+}
+
+.user-details-modal .info-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.user-details-modal .info-section h6 {
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.user-avatar-large {
+  border: 3px solid #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== DROPDOWN ACTIONS ===== */
+.user-management .dropdown-toggle {
+  border: 1px solid #dee2e6;
+  background: white;
+  color: #6c757d;
+}
+
+.user-management .dropdown-toggle:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+/* ===== MENU KEBAB ===== */
+.user-management .kebab-menu-toggle {
+  border: 1px solid #dee2e6;
+  background: white;
+  color: #6c757d;
+  padding: 0.375rem 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.user-management .kebab-menu-toggle:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+  color: #495057;
+}
+
+.user-management .kebab-menu-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+  border-color: #3b82f6;
+}
+
+.user-management .kebab-menu {
+  min-width: 180px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  margin-top: 0.25rem;
+}
+
+.user-management .kebab-menu .dropdown-item {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.user-management .kebab-menu .dropdown-item:hover {
+  background: #f8f9fa;
+  color: #495057;
+}
+
+.user-management .kebab-menu .dropdown-item.text-primary:hover {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.user-management .kebab-menu .dropdown-item.text-warning:hover {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.user-management .kebab-menu .dropdown-item.text-success:hover {
+  background: #d4edda;
+  color: #155724;
+}
+
+.user-management .kebab-menu .dropdown-item.text-danger:hover {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.user-management .dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 0.5rem 0;
+}
+
+.user-management .dropdown-item {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.user-management .dropdown-item:hover {
+  background: #f8f9fa;
+  color: #495057;
+}
+
+.user-management .dropdown-item.text-danger:hover {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.user-management .dropdown-item.text-warning:hover {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.user-management .dropdown-item.text-success:hover {
+  background: #d4edda;
+  color: #155724;
+}
+
+/* ===== BOUTONS D'ACTION AMÉLIORÉS ===== */
+.user-management .btn-outline-primary {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  transition: all 0.3s ease;
+}
+
+.user-management .btn-outline-primary:hover {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.user-management .btn-outline-warning {
+  border-color: #f59e0b;
+  color: #f59e0b;
+  transition: all 0.3s ease;
+}
+
+.user-management .btn-outline-warning:hover {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+.user-management .btn-outline-danger {
+  border-color: #dc2626;
+  color: #dc2626;
+  transition: all 0.3s ease;
+}
+
+.user-management .btn-outline-danger:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+}
+
+/* ===== ACTIONS EN LOT ===== */
+.bulk-actions-bar {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%) !important;
+  border: none;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bulk-actions-bar .btn-outline-light {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.bulk-actions-bar .btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+}
+
+.bulk-actions-bar .btn-outline-danger {
+  border-color: rgba(220, 53, 69, 0.5);
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.1);
+}
+
+.bulk-actions-bar .btn-outline-danger:hover {
+  background: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+/* ===== AFFICHAGE DES RÔLES ===== */
+.user-management .role-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 140px;
+}
+
+.user-management .role-badge-container {
+  display: flex;
+  align-items: center;
+}
+
+.user-management .role-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.user-management .role-badge:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.user-management .role-description {
+  font-size: 0.7rem;
+  line-height: 1.2;
+  margin-top: 0.1rem;
+  opacity: 0.8;
+}
+
+/* ===== STYLES SPÉCIFIQUES PAR RÔLE ===== */
+.user-management .role-badge-admin {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border: 1px solid #bd2130;
+}
+
+.user-management .role-badge-admin-personnel {
+  background: linear-gradient(135deg, #343a40, #23272b);
+  color: white;
+  border: 1px solid #1d2124;
+}
+
+.user-management .role-badge-admin-pharmacist {
+  background: linear-gradient(135deg, #28a745, #1e7e34);
+  color: white;
+  border: 1px solid #1c7430;
+}
+
+.user-management .role-badge-head-doctor {
+  background: linear-gradient(135deg, #ffc107, #e0a800);
+  color: #212529;
+  border: 1px solid #d39e00;
+}
+
+.user-management .role-badge-doctor {
+  background: linear-gradient(135deg, #fd7e14, #e55a00);
+  color: white;
+  border: 1px solid #d35400;
+}
+
+.user-management .role-badge-pharmacist {
+  background: linear-gradient(135deg, #20c997, #17a2b8);
+  color: white;
+  border: 1px solid #138496;
+}
+
+.user-management .role-badge-receptionist {
+  background: linear-gradient(135deg, #17a2b8, #138496);
+  color: white;
+  border: 1px solid #117a8b;
+}
+
+.user-management .role-badge-nurse {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  color: white;
+  border: 1px solid #545b62;
+}
+
+.user-management .role-badge-user {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: 1px solid #004085;
+}
+
+.user-management .role-badge-unknown {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+}
+
+/* ===== CHECKBOXES ===== */
+.user-management .form-check-input {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.user-management .form-check-input:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.user-management .form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+.user-management .table tbody tr.table-primary {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+}
+
+.user-management .table tbody tr.table-primary td {
+  border-color: #90caf9;
+}
+
+/* ===== ANIMATIONS ===== */
+
+/* ===== DARK MODE SUPPORT ===== */
+@media (prefers-color-scheme: dark) {
+  .user-management {
+    background: #1a202c;
+  }
+  
+  .user-management .card {
+    background: #2d3748;
+    border-color: #4a5568;
+  }
+  
+  .user-management .table thead th {
+    background: #4a5568;
+    color: #e2e8f0;
+    border-color: #718096;
+  }
+  
+  .user-management .table tbody td {
+    color: #e2e8f0;
+    border-color: #4a5568;
+  }
+  
+  .user-management .table tbody tr {
+    background: #2d3748;
+  }
+  
+  .user-management .table tbody tr:nth-child(even) {
+    background: #4a5568;
+  }
+}

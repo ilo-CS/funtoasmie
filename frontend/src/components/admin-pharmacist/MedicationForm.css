@@ -1,0 +1,339 @@
+/* MedicationForm Styles */
+.medication-form-modal .modal-header {
+  border: none;
+  border-radius: 8px 8px 0 0;
+  color: white;
+}
+
+.medication-form-modal .modal-header.add {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.medication-form-modal .modal-header.edit {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.medication-form-modal .modal-title {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.medication-form-modal .modal-body {
+  padding: 2rem;
+}
+
+.medication-form-modal .modal-footer {
+  border: none;
+  padding: 1rem 2rem;
+  background: #f8f9fa;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Form styles */
+.medication-form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.form-label .icon {
+  margin-right: 0.25rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+.form-control:hover,
+.form-select:hover {
+  border-color: #007bff;
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  background-color: #f8f9fa;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Textarea spécifique */
+.form-control[as="textarea"] {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Select spécifique */
+.form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 12px;
+  padding-right: 40px;
+}
+
+/* Boutons */
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.btn-cancel {
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 600;
+  background: #6c757d;
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-submit {
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 600;
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-submit.add {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.btn-submit.edit {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.btn-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading state */
+.btn-submit.loading {
+  position: relative;
+  color: transparent;
+}
+
+.btn-submit.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Alertes d'erreur */
+.form-error {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  font-size: 0.875rem;
+}
+
+/* Validation states */
+.form-control.is-valid,
+.form-select.is-valid {
+  border-color: #28a745;
+}
+
+.form-control.is-valid:focus,
+.form-select.is-valid:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+  border-color: #dc3545;
+}
+
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Messages de validation */
+.invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #dc3545;
+}
+
+.valid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #28a745;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .medication-form-modal .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .medication-form-modal .modal-footer {
+    padding: 1rem 1.5rem;
+  }
+  
+  .form-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .btn-cancel,
+  .btn-submit {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .medication-form-modal .modal-body {
+    padding: 1rem;
+  }
+  
+  .medication-form-modal .modal-footer {
+    padding: 0.75rem 1rem;
+  }
+  
+  .form-control,
+  .form-select {
+    padding: 10px 14px;
+    font-size: 0.875rem;
+  }
+  
+  .form-label {
+    font-size: 0.875rem;
+  }
+}
+
+/* Animations */
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.medication-form-modal .modal-content {
+  animation: slideInFromBottom 0.3s ease-out;
+}
+
+/* Focus management */
+.medication-form-modal .modal-content:focus {
+  outline: none;
+}
+
+/* Accessibility */
+.form-control:focus,
+.form-select:focus,
+.btn-cancel:focus,
+.btn-submit:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .medication-form-modal .modal-body {
+    background-color: #2d3748;
+    color: #e2e8f0;
+  }
+  
+  .medication-form-modal .modal-footer {
+    background-color: #4a5568;
+  }
+  
+  .form-control,
+  .form-select {
+    background-color: #4a5568;
+    border-color: #718096;
+    color: #e2e8f0;
+  }
+  
+  .form-control:focus,
+  .form-select:focus {
+    border-color: #007bff;
+    background-color: #4a5568;
+  }
+  
+  .form-label {
+    color: #e2e8f0;
+  }
+  
+  .form-error {
+    background-color: #742a2a;
+    border-color: #e53e3e;
+    color: #fed7d7;
+  }
+}

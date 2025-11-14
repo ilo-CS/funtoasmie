@@ -1,0 +1,197 @@
+/* PharmacistSidebar Styles */
+.pharmacist-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 280px;
+  background: linear-gradient(180deg, #198754 0%, #157347 100%);
+  z-index: 1040;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.pharmacist-sidebar.open {
+  transform: translateX(0);
+}
+
+/* Overlay pour mobile */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1035;
+}
+
+/* Header du sidebar */
+.sidebar-header {
+  padding: 1.5rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  object-fit: cover;
+}
+
+.brand-text h6 {
+  color: white;
+  font-size: 1.1rem;
+}
+
+.brand-text small {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+}
+
+.sidebar-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.sidebar-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Navigation */
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0;
+  overflow-y: auto;
+}
+
+.sidebar-nav .nav {
+  padding: 0 1rem;
+}
+
+.sidebar-nav-link {
+  color: rgba(255, 255, 255, 0.8) !important;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.25rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar-nav-link:hover {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-nav-link.active {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+}
+
+.sidebar-nav-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 20px;
+  background: white;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Footer du sidebar */
+.sidebar-footer {
+  padding: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.user-profile .user-info {
+  color: white;
+}
+
+.user-profile .user-info small {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.user-actions .sidebar-nav-link {
+  padding: 0.5rem 0;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+.user-actions .sidebar-nav-link:hover {
+  transform: none;
+}
+
+/* Responsive */
+@media (min-width: 992px) {
+  .pharmacist-sidebar {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 280px;
+  }
+  
+  .main-content.sidebar-open {
+    margin-left: 280px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .main-content.sidebar-open {
+    margin-left: 0;
+  }
+}
+
+/* Animation pour les cartes hover */
+.hover-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #e9ecef;
+}
+
+.hover-card:hover {
+  box-shadow: 0 8px 25px rgba(25, 135, 84, 0.15) !important;
+  border-color: #198754;
+}
+
+/* Scrollbar personnalisé pour le sidebar */
+.sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
