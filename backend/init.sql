@@ -820,7 +820,6 @@ ALTER TABLE `suppliers`
 -- Index pour la table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
   ADD KEY `idx_users_email` (`email`),
   ADD KEY `idx_users_role` (`role`),
