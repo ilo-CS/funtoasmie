@@ -47,6 +47,7 @@ const normalizedAllowedOrigins = allowedOrigins.map(normalizeOrigin);
 
 app.use(cors({
   origin: (origin, callback) => {
+    // Permettre les requêtes sans origine (ex: applications mobiles, Postman)
     if (!origin) {
       return callback(null, true);
     }
@@ -60,9 +61,14 @@ app.use(cors({
       return callback(null, true);
     }
 
+    // Log pour débogage (peut être supprimé en production)
+    console.warn(`CORS: Origin ${origin} (normalized: ${normalizedOrigin}) not allowed. Allowed origins:`, normalizedAllowedOrigins);
     return callback(new Error(`Origin ${origin} not allowed by CORS`));
   },
-  credentials: config.cors.credentials
+  credentials: config.cors.credentials,
+  methods: config.cors.methods || ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: config.cors.allowedHeaders || ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: config.cors.exposedHeaders || ['Authorization']
 }));
 
 // Limiteur après CORS pour que les réponses 429 aient les bons en-têtes CORS

@@ -57,12 +57,17 @@ BACKEND_PORT=5000
 JWT_SECRET=votre_secret_jwt_aleatoire
 JWT_EXPIRES_IN=24h
 JWT_REFRESH_EXPIRES_IN=7d
-CORS_ORIGIN=https://votre-domaine.com,http://localhost:3000
+# IMPORTANT: Définir l'origine (URL) de votre frontend déployé
+# Format: http://VOTRE_IP_VPS:80,http://VOTRE_IP_VPS (remplacer VOTRE_IP_VPS par l'IP de votre VPS)
+# Ou avec un domaine: https://votre-domaine.com,http://votre-domaine.com
+CORS_ORIGIN=http://VOTRE_IP_VPS:80,http://VOTRE_IP_VPS,http://localhost:3000
 BCRYPT_ROUNDS=12
 
 # Frontend
 FRONTEND_PORT=80
-REACT_APP_API_URL=https://api.votre-domaine.com/api
+# Cette variable est utilisée lors du build Docker (configurée dans les secrets GitHub)
+# Format: http://VOTRE_IP_VPS:5000/api (remplacer VOTRE_IP_VPS par l'IP de votre VPS)
+REACT_APP_API_URL=http://VOTRE_IP_VPS:5000/api
 
 # MySQL
 MYSQL_PORT=3306
@@ -83,6 +88,7 @@ Dans les paramètres du repository GitHub, ajouter les secrets suivants :
 - `SSH_PK` : La clé privée SSH pour l'authentification
 - `PORT_SRV` : Le port SSH (par défaut 22, optionnel si port standard)
 - `GHCR_TOKEN` : Un Personal Access Token GitHub avec les permissions `write:packages` et `read:packages` (ou utiliser `GITHUB_TOKEN` automatique)
+- `REACT_APP_API_URL` : **IMPORTANT** - L'URL complète de l'API backend pour le frontend (ex: `http://VOTRE_IP_VPS:5000/api` ou `https://api.votre-domaine.com/api`). Cette URL est intégrée dans l'image Docker du frontend lors du build.
 
 ### Comment générer les secrets :
 
@@ -122,6 +128,7 @@ Le pipeline CI/CD comprend 3 étapes principales :
 1. **Validate** : Validation que tous les fichiers nécessaires (Dockerfiles, docker-compose) existent
 2. **Build and Push** : 
    - Construction des images Docker pour backend et frontend
+   - **Frontend** : Utilise le secret `REACT_APP_API_URL` pour configurer l'URL de l'API dans l'image
    - Push vers GitHub Container Registry (ghcr.io)
    - Support multi-plateforme (amd64, arm64)
    - Mise en cache pour accélérer les builds suivants
@@ -138,6 +145,23 @@ Le pipeline CI/CD comprend 3 étapes principales :
    - Vérification de l'état des conteneurs
    - Affichage des logs pour vérification
    - Nettoyage automatique des images non utilisées
+
+### Configuration CORS et URL API
+
+**Problème courant** : Erreur CORS ou l'application frontend ne peut pas communiquer avec le backend.
+
+**Solution** :
+
+1. **Configurer `REACT_APP_API_URL` dans les secrets GitHub** :
+   - Format : `http://VOTRE_IP_VPS:5000/api` (remplacer `VOTRE_IP_VPS` par l'IP de votre VPS)
+   - Cette URL sera intégrée dans l'image Docker du frontend lors du build
+   - Exemple : `http://192.168.1.100:5000/api`
+
+2. **Configurer `CORS_ORIGIN` dans le fichier `.env` sur le VPS** :
+   - Format : `http://VOTRE_IP_VPS:80,http://VOTRE_IP_VPS` (remplacer par l'IP de votre VPS)
+   - Ou avec un domaine : `https://votre-domaine.com,http://votre-domaine.com`
+   - Vous pouvez ajouter plusieurs origines séparées par des virgules
+   - Exemple : `http://192.168.1.100:80,http://192.168.1.100`
 
 ## Vérification après déploiement
 
