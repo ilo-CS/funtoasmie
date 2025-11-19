@@ -11,6 +11,8 @@ env:
   REGISTRY: ghcr.io
   BACKEND_IMAGE: funtoa-backend
   FRONTEND_IMAGE: funtoa-frontend
+  # Convertir le repository owner en minuscules pour Docker (exigence Docker)
+  REPOSITORY_OWNER: ${{ github.repository_owner }}
 
 jobs:
   validate:
@@ -62,11 +64,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set repository owner (lowercase)
+        id: repo-owner
+        run: |
+          REPO_OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "owner=$REPO_OWNER_LOWER" >> $GITHUB_OUTPUT
+          echo "✅ Repository owner: ${{ github.repository_owner }} -> $REPO_OWNER_LOWER"
+
       - name: Extract metadata for backend
         id: meta-backend
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.BACKEND_IMAGE }}
+          images: ${{ env.REGISTRY }}/${{ steps.repo-owner.outputs.owner }}/${{ env.BACKEND_IMAGE }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -90,7 +99,7 @@ jobs:
         id: meta-frontend
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.FRONTEND_IMAGE }}
+          images: ${{ env.REGISTRY }}/${{ steps.repo-owner.outputs.owner }}/${{ env.FRONTEND_IMAGE }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -229,9 +238,10 @@ jobs:
               fi
             fi
             
-            # Définir les noms d'images pour la production
-            export BACKEND_IMAGE="${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.BACKEND_IMAGE }}:latest"
-            export FRONTEND_IMAGE="${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.FRONTEND_IMAGE }}:latest"
+            # Définir les noms d'images pour la production (en minuscules)
+            REPO_OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+            export BACKEND_IMAGE="${{ env.REGISTRY }}/$REPO_OWNER_LOWER/${{ env.BACKEND_IMAGE }}:latest"
+            export FRONTEND_IMAGE="${{ env.REGISTRY }}/$REPO_OWNER_LOWER/${{ env.FRONTEND_IMAGE }}:latest"
             
             echo "📦 Backend image: $BACKEND_IMAGE"
             echo "📦 Frontend image: $FRONTEND_IMAGE"
