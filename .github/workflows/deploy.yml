@@ -1,0 +1,287 @@
+name: Build and Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  BACKEND_IMAGE: funtoa-backend
+  FRONTEND_IMAGE: funtoa-frontend
+
+jobs:
+  validate:
+    name: Validate Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate Dockerfiles exist
+        run: |
+          if [ ! -f "./backend/Dockerfile" ]; then
+            echo "❌ Backend Dockerfile not found!"
+            exit 1
+          fi
+          if [ ! -f "./frontend/Dockerfile" ]; then
+            echo "❌ Frontend Dockerfile not found!"
+            exit 1
+          fi
+          echo "✅ All Dockerfiles found"
+
+      - name: Validate docker-compose files
+        run: |
+          if [ ! -f "./docker-compose.prod.yml" ]; then
+            echo "⚠️ docker-compose.prod.yml not found, but will use docker-compose.yml if available"
+          else
+            echo "✅ docker-compose.prod.yml found"
+          fi
+
+  build-and-push:
+    name: Build and Push Docker Images
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for backend
+        id: meta-backend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.BACKEND_IMAGE }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ steps.meta-backend.outputs.tags }}
+          labels: ${{ steps.meta-backend.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+
+      - name: Extract metadata for frontend
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.FRONTEND_IMAGE }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          labels: ${{ steps.meta-frontend.outputs.labels }}
+          build-args: |
+            REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL || 'http://localhost:5000/api' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+
+  deploy:
+    name: Deploy to VPS
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate VPS secrets
+        run: |
+          if [ -z "${{ secrets.IP_SRV }}" ]; then
+            echo "❌ Secret IP_SRV is not set!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.USR_SRV }}" ]; then
+            echo "❌ Secret USR_SRV is not set!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.SSH_PK }}" ]; then
+            echo "❌ Secret SSH_PK is not set!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.PORT_SRV }}" ]; then
+            echo "❌ Secret PORT_SRV is not set!"
+            exit 1
+          fi
+          echo "✅ All required secrets are set"
+          echo "✅ SSH Port configured: ${{ secrets.PORT_SRV }}"
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        timeout-minutes: 15
+        with:
+          host: ${{ secrets.IP_SRV }}
+          username: ${{ secrets.USR_SRV }}
+          key: ${{ secrets.SSH_PK }}
+          port: ${{ secrets.PORT_SRV }}
+          script: |
+            set -e
+            
+            echo "🚀 Démarrage du déploiement..."
+            
+            # Vérifier que Docker est installé
+            if ! command -v docker &> /dev/null; then
+              echo "❌ Docker n'est pas installé sur le serveur!"
+              exit 1
+            fi
+            
+            # Vérifier que Docker Compose est installé
+            if ! command -v docker compose &> /dev/null && ! command -v docker-compose &> /dev/null; then
+              echo "❌ Docker Compose n'est pas installé sur le serveur!"
+              exit 1
+            fi
+            
+            # Définir la commande docker compose
+            if command -v docker compose &> /dev/null; then
+              DOCKER_COMPOSE="docker compose"
+            else
+              DOCKER_COMPOSE="docker-compose"
+            fi
+            
+            # Naviguer vers le répertoire du projet
+            DEPLOY_DIR="/opt/funtoa"
+            if [ ! -d "$DEPLOY_DIR" ]; then
+              echo "❌ Répertoire $DEPLOY_DIR introuvable!"
+              echo "📝 Création du répertoire..."
+              sudo mkdir -p $DEPLOY_DIR || { echo "❌ Impossible de créer le répertoire!"; exit 1; }
+              sudo chown $USER:$USER $DEPLOY_DIR || true
+            fi
+            
+            cd $DEPLOY_DIR || { echo "❌ Impossible d'accéder au répertoire $DEPLOY_DIR!"; exit 1; }
+            
+            # Initialiser Git si le répertoire n'est pas un dépôt Git
+            if [ ! -d ".git" ]; then
+              echo "📝 Initialisation du dépôt Git..."
+              git init || { echo "❌ Échec de l'initialisation Git!"; exit 1; }
+              git remote add origin https://github.com/${{ github.repository }}.git || git remote set-url origin https://github.com/${{ github.repository }}.git
+            fi
+            
+            # Récupérer les dernières modifications
+            echo "📥 Récupération des dernières modifications..."
+            CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")
+            git fetch origin main || git fetch origin master || true
+            git checkout main 2>/dev/null || git checkout master 2>/dev/null || git checkout -b main
+            git pull origin main 2>/dev/null || git pull origin master 2>/dev/null || echo "⚠️ Aucune mise à jour disponible"
+            
+            # Se connecter au registre GitHub Container Registry
+            echo "🔐 Authentification au registre Docker..."
+            GHCR_TOKEN="${{ secrets.GHCR_TOKEN || secrets.GITHUB_TOKEN }}"
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u ${{ github.actor }} --password-stdin || { 
+              echo "❌ Échec de la connexion au registre!"
+              exit 1
+            }
+            
+            # Utiliser docker-compose.prod.yml pour la production
+            COMPOSE_FILE="docker-compose.prod.yml"
+            if [ ! -f "$COMPOSE_FILE" ]; then
+              echo "⚠️ Fichier $COMPOSE_FILE introuvable, utilisation de docker-compose.yml"
+              COMPOSE_FILE="docker-compose.yml"
+              if [ ! -f "$COMPOSE_FILE" ]; then
+                echo "❌ Aucun fichier docker-compose trouvé!"
+                exit 1
+              fi
+            fi
+            
+            # Vérifier que le fichier .env existe
+            if [ ! -f ".env" ]; then
+              echo "⚠️ Fichier .env non trouvé!"
+              echo "📝 Veuillez créer un fichier .env avant de déployer"
+              if [ -f ".env.example" ]; then
+                echo "💡 Un fichier .env.example est disponible, vous pouvez le copier et le modifier"
+              fi
+            fi
+            
+            # Définir les noms d'images pour la production
+            export BACKEND_IMAGE="${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.BACKEND_IMAGE }}:latest"
+            export FRONTEND_IMAGE="${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.FRONTEND_IMAGE }}:latest"
+            
+            echo "📦 Backend image: $BACKEND_IMAGE"
+            echo "📦 Frontend image: $FRONTEND_IMAGE"
+            
+            # Arrêter les conteneurs existants (sans supprimer les volumes)
+            echo "🛑 Arrêt des conteneurs existants..."
+            $DOCKER_COMPOSE -f $COMPOSE_FILE down --remove-orphans || true
+            
+            # Télécharger les nouvelles images
+            echo "📥 Téléchargement des nouvelles images..."
+            $DOCKER_COMPOSE -f $COMPOSE_FILE pull || { 
+              echo "❌ Échec du téléchargement des images!"
+              echo "💡 Vérifiez que les images ont été correctement poussées vers le registre"
+              exit 1
+            }
+            
+            # Démarrer les conteneurs
+            echo "🚀 Démarrage des conteneurs..."
+            $DOCKER_COMPOSE -f $COMPOSE_FILE up -d --remove-orphans || { 
+              echo "❌ Échec du démarrage des conteneurs!"
+              echo "📋 Affichage des logs d'erreur..."
+              $DOCKER_COMPOSE -f $COMPOSE_FILE logs --tail=50
+              exit 1
+            }
+            
+            # Attendre que les services soient prêts
+            echo "⏳ Attente du démarrage des services..."
+            sleep 10
+            
+            # Vérifier l'état des conteneurs
+            echo "📊 État des conteneurs:"
+            $DOCKER_COMPOSE -f $COMPOSE_FILE ps
+            
+            # Vérifier que tous les conteneurs sont en cours d'exécution
+            FAILED_CONTAINERS=$($DOCKER_COMPOSE -f $COMPOSE_FILE ps --format json | grep -c '"State":"failed"' || echo "0")
+            if [ "$FAILED_CONTAINERS" -gt "0" ]; then
+              echo "❌ Certains conteneurs ont échoué!"
+              $DOCKER_COMPOSE -f $COMPOSE_FILE ps
+              exit 1
+            fi
+            
+            # Afficher les logs récents pour vérification
+            echo "📋 Logs récents:"
+            $DOCKER_COMPOSE -f $COMPOSE_FILE logs --tail=30
+            
+            # Nettoyer les images non utilisées (en arrière-plan pour ne pas bloquer)
+            echo "🧹 Nettoyage des images non utilisées..."
+            docker image prune -af --filter "until=24h" || true
+            
+            echo ""
+            echo "✅ Déploiement terminé avec succès!"
+            echo "📊 Résumé:"
+            $DOCKER_COMPOSE -f $COMPOSE_FILE ps --format "table {{.Name}}\t{{.Status}}\t{{.Ports}}"
