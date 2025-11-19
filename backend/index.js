@@ -112,9 +112,11 @@ app.use(cors({
 
 
 // Gérer explicitement les requêtes OPTIONS (preflight) AVANT le rate limiter
-// Use '*' pattern to remain compatible with path-to-regexp versions that
-// reject patterns like '/*' (which can be parsed as a modifier without a name).
-app.options('*', (req, res) => {
+// Avoid using route patterns ('/*' or '*') which may be parsed by
+// path-to-regexp and throw PathError on some versions. Use a simple
+// middleware that intercepts OPTIONS requests instead.
+app.use((req, res, next) => {
+  if (req.method !== 'OPTIONS') return next();
   const origin = req.headers.origin;
   if (origin) {
     res.header('Access-Control-Allow-Origin', origin);
