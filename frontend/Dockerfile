@@ -16,7 +16,7 @@ RUN npm ci && npm cache clean --force
 ARG REACT_APP_API_URL=http://localhost:5000/api
 ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 ENV NODE_ENV=production
-ENV CI=true
+ENV CI=false
 
 COPY . .
 
