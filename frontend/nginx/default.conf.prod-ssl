@@ -37,7 +37,7 @@ server {
     # ─────────────────────────────────────────────────────────────────────────────────────
     # 🔐 SSL/TLS Configuration
     # ─────────────────────────────────────────────────────────────────────────────────────
-    # Chemins des certificats Let's Encrypt (à adapter selon votre domaine)
+    # Chemins des certificats Let's Encrypt
     ssl_certificate /etc/letsencrypt/live/app.funtoa-smie.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/app.funtoa-smie.com/privkey.pem;
     
@@ -132,4 +132,3 @@ server {
         log_not_found off;
     }
 }
-

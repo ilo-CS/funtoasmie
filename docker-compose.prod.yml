@@ -61,10 +61,13 @@ services:
         condition: service_healthy
     environment:
       NODE_ENV: production
-    # Exposer publiquement le port 80 (nginx est dans le Dockerfile du frontend)
+    # Exposer publiquement les ports 80 (HTTP → HTTPS redirect) et 443 (HTTPS)
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      # Monter les certificats Let's Encrypt depuis le VPS
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     networks:
       - funtoa-network
     healthcheck:
