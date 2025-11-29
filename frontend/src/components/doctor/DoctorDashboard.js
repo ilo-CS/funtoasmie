@@ -16,7 +16,7 @@ const DoctorDashboard = () => {
   return (
     <div className="min-vh-100 bg-light">
       {/* Header Médecin */}
-      <Navbar bg="danger" variant="dark" expand="lg" className="shadow">
+      <Navbar bg="warning" variant="dark" expand="lg" className="shadow">
         <Container fluid>
           <Navbar.Brand className="fw-bold">
             <img 
