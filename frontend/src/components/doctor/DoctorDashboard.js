@@ -93,7 +93,7 @@ const DoctorDashboard = () => {
               </Card.Header>
               
               <Card.Body className="p-4">
-                {/* Statistiques */}
+                {/* Statistiques dash */}
                 {loadingStats ? (
                   <div className="text-center py-4">
                     <Spinner animation="border" variant="warning" />
